@@ -1,0 +1,7 @@
+package views
+
+templ Counter() {
+	<h1>Counter: <span id="counter">0</span></h1>
+    <button hx-post="/increment" hx-target="#counter" hx-swap="innerHTML">+</button>
+    <button hx-post="/decrement" hx-target="#counter" hx-swap="innerHTML">-</button>
+}

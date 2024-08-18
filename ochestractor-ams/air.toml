@@ -1,0 +1,6 @@
+# air.toml
+[build]
+bin = "tmp/main"         # This is where the compiled binary will be placed
+cmd = "go run main/main.go"  # Path to your main Go file
+include_dir = ["main"]  # Watch the 'main' directory for changes
+exclude_dir = ["tmp"]   # Optionally exclude directories
