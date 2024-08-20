@@ -6,6 +6,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type UpstreamMetadata struct {
+	host string
+	port string
+}
+
 func SetupRoutes(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Redirect("/overview", fiber.StatusFound)

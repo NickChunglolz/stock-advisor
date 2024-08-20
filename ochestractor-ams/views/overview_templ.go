@@ -26,7 +26,7 @@ func Overview() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Hello World!!</h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<table class=\"table-auto w-9/12\"><thead><tr><th>Exchange</th><th>Stock Code</th><th>Stock Name</th><th>Current Price</th><th>Opening Price</th><th>Highest Price</th><th>Lowest Price</th><th>Previous Close</th><th>Trading Volume</th></tr></thead> <tbody id=\"data-container\" hx-get=\"/Stocks\" hx-trigger=\"load\" hx-target=\"#data-container\" hx-swap=\"innerHTML\"><tr hx-for=\"item in data\"><td><span hx-text=\"item.ex\"></span></td><td>Malcolm Lockyer</td><td>1961</td></tr></tbody></table>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

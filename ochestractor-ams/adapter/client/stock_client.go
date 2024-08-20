@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 )
 
-type StockInfoReply struct {
+type StockReply struct {
 	Exchange      string `json:"ex"`
 	StockCode     string `json:"ch"`
 	StockName     string `json:"n"`
@@ -18,25 +19,27 @@ type StockInfoReply struct {
 	TradingVolume string `json:"tv"`
 }
 
-type StockInfoReplies struct {
-	MsgArray []StockInfoReply `json:"msgArray"`
-}
-
-type TwseApiClient struct {
+type StockClient struct {
 	baseURL    string
 	httpClient *http.Client
 }
 
-func NewTwseApiClient() *TwseApiClient {
-	return &TwseApiClient{
-		baseURL:    "http://mis.twse.com.tw/stock/api",
+const (
+	downstreamHost = "DOWNSTREAM_HOST"
+	downstreamPort = "DOWNSTREAM_PORT"
+	domainPath     = "Stocks"
+)
+
+func NewStockClient() *StockClient {
+	return &StockClient{
+		baseURL:    "http://" + os.Getenv(downstreamHost) + ":" + os.Getenv(downstreamPort) + "/" + domainPath,
 		httpClient: &http.Client{},
 	}
 }
 
-func (client *TwseApiClient) GetStockInfos(queryString string) ([]StockInfoReply, error) {
+func (client *StockClient) GetStocks() ([]StockReply, error) {
 
-	resp, err := client.httpClient.Get(client.baseURL + "/getStockInfo.jsp?ex_ch=" + queryString)
+	resp, err := client.httpClient.Get(client.baseURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make GET request: %w", err)
 	}
@@ -47,14 +50,10 @@ func (client *TwseApiClient) GetStockInfos(queryString string) ([]StockInfoReply
 		return nil, fmt.Errorf("HTTP request failed with status code: %d", resp.StatusCode)
 	}
 
-	var apiResponse StockInfoReplies
+	var apiResponse []StockReply
 	if err := json.NewDecoder(resp.Body).Decode(&apiResponse); err != nil {
 		return nil, fmt.Errorf("failed to decode JSON response: %w", err)
 	}
 
-	return apiResponse.MsgArray, nil
+	return apiResponse, nil
 }
-
-// func getStockInfosQueryParamsMapper(queryParams []string) string {
-
-// }

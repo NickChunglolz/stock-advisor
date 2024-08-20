@@ -1,31 +1,33 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"os"
 
-	"github.com/NickChunglolz/stock-advisor/ochestractor-dms/infrastructure/utils"
+	"github.com/NickChunglolz/stock-advisor/ochestractor-dms/adapter/controller"
+	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
+)
+
+const (
+	host = "HOST"
+	port = "PORT"
 )
 
 func main() {
-	// app := fiber.New()
-	// apiClient := client.NewTwseApiClient()
+	app := fiber.New()
+	controller.SetupRoutes(app)
 
-	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	url := "/getStockInfo.jsp?ex_ch=tse_0050.tw|tse_0056.tw|tse_2330.tw|tse_2317.tw|tse_1216.tw|otc_6547.tw|otc_6180.tw"
-	// 	data, err := apiClient.GetStockInfos(url)
-	// 	if err != nil {
-	// 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
-	// 	}
-	// 	return c.JSON(data)
-	// })
+	godotenv.Load()
+	address := os.Getenv(host) + ":" + os.Getenv(port)
 
-	// log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(address))
 
-	factory := &utils.DatabaseFactory{}
-	defer factory.CloseDatabaseConnections()
+	// factory := &utils.DatabaseFactory{}
+	// defer factory.CloseDatabaseConnections()
 
-	// Initialize Redis client
-	redisClient := factory.CreateRedis()
+	// // Initialize Redis client
+	// redisClient := factory.CreateRedis()
 
-	fmt.Println(redisClient)
+	// fmt.Println(redisClient)
 }
