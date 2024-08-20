@@ -8,10 +8,6 @@ import (
 
 func setupOverviewRoutes(app *fiber.App) {
 	app.Get("/overview", func(c *fiber.Ctx) error {
-		return Render(c, views.Overview())
-	})
-
-	app.Get("/Stocks", func(c *fiber.Ctx) error {
 		apiClient := client.NewStockClient()
 
 		data, err := apiClient.GetStocks()
@@ -20,6 +16,10 @@ func setupOverviewRoutes(app *fiber.App) {
 			return c.Status(fiber.StatusInternalServerError).SendString("Error fetching stock data")
 		}
 
-		return c.JSON(data)
+		return Render(c, views.Overview(data))
 	})
+
+	// app.Get("/Stocks", func(c *fiber.Ctx) error {
+	// 	return c.JSON(data)
+	// })
 }

@@ -1,6 +1,8 @@
 package views
 
-templ Overview() {
+import "github.com/NickChunglolz/stock-advisor/ochestractor-ams/adapter/client"
+
+templ Overview(stocks []client.StockReply) {
 	<table class="table-auto w-9/12">
         <thead>
             <tr>
@@ -15,12 +17,20 @@ templ Overview() {
 				<th>Trading Volume</th>
 			</tr>
         </thead>
-        <tbody id="data-container" hx-get="/Stocks" hx-trigger="load" hx-target="#data-container" hx-swap="innerHTML">
-            <tr hx-for="item in data">
-                <td><span hx-text="item.ex"></span></td>
-                <td>Malcolm Lockyer</td>
-                <td>1961</td>
-            </tr>
+        <tbody>
+            for _, stock := range stocks {
+                <tr>
+                    <td>{ stock.Exchange }</td>
+                    <td>{ stock.StockCode }</td>
+                    <td>{ stock.StockName }</td>
+                    <td>{ stock.CurrentPrice }</td>
+                    <td>{ stock.OpeningPrice }</td>
+                    <td>{ stock.HighestPrice }</td>
+                    <td>{ stock.LowestPrice }</td>
+                    <td>{ stock.PreviousClose }</td>
+                    <td>{ stock.TradingVolume }</td>
+                </tr>
+            }
         </tbody>
     </table>
 }
