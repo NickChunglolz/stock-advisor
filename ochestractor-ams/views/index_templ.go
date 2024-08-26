@@ -26,7 +26,7 @@ func Index(content templ.Component) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html><head><meta charset=\"UTF-8\"><title>Counter App</title><link rel=\"stylesheet\" href=\"/styles/templ.css\"><script src=\"https://unpkg.com/htmx.org@1.6.1\"></script><script src=\"https://cdn.tailwindcss.com\"></script></head><body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html><head><meta charset=\"UTF-8\"><title>Counter App</title><link rel=\"stylesheet\" href=\"/styles/templ.css\"><script src=\"https://unpkg.com/htmx.org@1.6.1\"></script><script src=\"https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries\"></script></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

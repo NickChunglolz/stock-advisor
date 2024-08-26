@@ -1,17 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/NickChunglolz/stock-advisor/ochestractor-dms/adapter/controller"
+	"github.com/NickChunglolz/stock-advisor/ochestractor-dms/infrastructure/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
 
 const (
-	host = "HOST"
-	port = "PORT"
+	HOST = "HOST"
+	PORT = "PORT"
 )
 
 func main() {
@@ -19,15 +21,16 @@ func main() {
 	controller.SetupRoutes(app)
 
 	godotenv.Load()
-	address := os.Getenv(host) + ":" + os.Getenv(port)
+	address := os.Getenv(HOST) + ":" + os.Getenv(PORT)
+
+	factory := &utils.DatabaseFactory{}
+	defer factory.CloseDatabaseConnections()
+
+	postgresClient := factory.CreatePostgres()
+	redisClient := factory.CreateRedis()
+
+	fmt.Println(postgresClient)
+	fmt.Println(redisClient)
 
 	log.Fatal(app.Listen(address))
-
-	// factory := &utils.DatabaseFactory{}
-	// defer factory.CloseDatabaseConnections()
-
-	// // Initialize Redis client
-	// redisClient := factory.CreateRedis()
-
-	// fmt.Println(redisClient)
 }
