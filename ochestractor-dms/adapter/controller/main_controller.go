@@ -9,5 +9,5 @@ func SetupRoutes(app *fiber.App) {
 		return c.Redirect("/Stocks", fiber.StatusFound)
 	})
 
-	setupStockInfoRoutes(app)
+	NewStockController().setupStockInfoRoutes(app)
 }

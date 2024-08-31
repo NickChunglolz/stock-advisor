@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -26,16 +27,20 @@ var (
 )
 
 type DatabaseFactoryInterface interface {
-	CreatePostgres() error
+	CreatePostgres() (*pg.DB, error)
 	CreateRedis() (*redis.Client, error)
-	GetPostgres()
+	GetPostgres() *pg.DB
 	GetRedis() *redis.Client
 	CloseDatabaseConnections()
 }
 
 type DatabaseFactory struct{}
 
-func (df *DatabaseFactory) CreatePostgres() *pg.DB {
+func NewDatabaseFactory() *DatabaseFactory {
+	return &DatabaseFactory{}
+}
+
+func (df *DatabaseFactory) CreatePostgres() (*pg.DB, error) {
 	var err string
 
 	postgresOnce.Do(func() {
@@ -50,12 +55,15 @@ func (df *DatabaseFactory) CreatePostgres() *pg.DB {
 		}
 	})
 
-	fmt.Println("Postgres client created successfully:", postgresClient)
-
-	return postgresClient
+	if len(err) > 0 {
+		return nil, errors.New(err)
+	} else {
+		fmt.Println("Postgres client created successfully:", postgresClient)
+		return postgresClient, nil
+	}
 }
 
-func (df *DatabaseFactory) CreateRedis() *redis.Client {
+func (df *DatabaseFactory) CreateRedis() (*redis.Client, error) {
 	var err error
 
 	redisOnce.Do(func() {
@@ -68,9 +76,16 @@ func (df *DatabaseFactory) CreateRedis() *redis.Client {
 		}
 	})
 
-	fmt.Println("Redis client created successfully:", redisClient)
+	if err != nil {
+		return nil, err
+	} else {
+		log.Println("Redis client created successfully:", redisClient)
+		return redisClient, nil
+	}
+}
 
-	return redisClient
+func (df *DatabaseFactory) GetPostgres() *pg.DB {
+	return postgresClient
 }
 
 func (df *DatabaseFactory) GetRedis() *redis.Client {
