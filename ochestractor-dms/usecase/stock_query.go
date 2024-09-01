@@ -14,9 +14,9 @@ type StockQuery struct {
 	client *client.TwseApiClient
 }
 
-func NewStockQuery() *StockQuery {
+func NewStockQuery(client *client.TwseApiClient) *StockQuery {
 	return &StockQuery{
-		client: client.NewTwseApiClient(),
+		client: client,
 	}
 }
 

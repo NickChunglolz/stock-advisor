@@ -10,10 +10,10 @@ type StockCommand struct {
 	repo   *repository.StockRepository
 }
 
-func NewStockCommand() *StockCommand {
+func NewStockCommand(client *client.TwseApiClient, repo *repository.StockRepository) *StockCommand {
 	return &StockCommand{
-		client: client.NewTwseApiClient(),
-		repo:   repository.NewStockRepository(),
+		client: client,
+		repo:   repo,
 	}
 }
 

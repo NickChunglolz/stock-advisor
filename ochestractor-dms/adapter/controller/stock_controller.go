@@ -14,10 +14,10 @@ type StockController struct {
 	command *usecase.StockCommand
 }
 
-func NewStockController() *StockController {
+func NewStockController(query *usecase.StockQuery, command *usecase.StockCommand) *StockController {
 	return &StockController{
-		query:   usecase.NewStockQuery(),
-		command: usecase.NewStockCommand(),
+		query:   query,
+		command: command,
 	}
 }
 
