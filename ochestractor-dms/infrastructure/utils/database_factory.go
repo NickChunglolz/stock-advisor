@@ -47,20 +47,21 @@ func (df *DatabaseFactory) CreatePostgres() (*pg.DB, error) {
 		postgresClient = pg.Connect(&pg.Options{
 			Addr: fmt.Sprintf("%s:%s", os.Getenv(POSTGRES_HOST), os.Getenv(POSTGRES_PORT)),
 			User: "postgres",
+			Password: "postgres",
 		})
 
-		err = postgresClient.Ping(context.Background()).Error()
-		if len(err) > 0 {
-			log.Println("Error connecting to Postgres:", err)
-		}
+		// err = postgresClient.Ping(context.Background()).Error()
+		// if len(err) > 0 {
+		// 	log.Println("Error connecting to Postgres:", err)
+		// }
 	})
 
 	if len(err) > 0 {
 		return nil, errors.New(err)
-	} else {
-		fmt.Println("Postgres client created successfully:", postgresClient)
-		return postgresClient, nil
 	}
+
+	fmt.Println("Postgres client created successfully:", postgresClient)
+	return postgresClient, nil
 }
 
 func (df *DatabaseFactory) CreateRedis() (*redis.Client, error) {

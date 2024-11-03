@@ -5,5 +5,7 @@ The stock advisor is an advisor for ingesting stock data from different regions 
 
 
 ## UML
-### Components Diagram
+### Component Diagram
 ![components](./asset/components.png)
+### Domain Models
+![ochestractor](./asset/stock_advistor_ochestractor_domain_model.png)
